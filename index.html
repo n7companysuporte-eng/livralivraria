@@ -1,0 +1,465 @@
+
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="theme-color" content="#182b25">
+<meta name="description" content="Livra Livraria — livros físicos por R$ 9,90 cada, com frete grátis.">
+<title>Livra Livraria | Livros por R$ 9,90</title>
+<style>
+:root{--green:#182b25;--green2:#28463a;--cream:#f7f3eb;--paper:#fffdf8;--gold:#d7ad62;--ink:#20251f;--muted:#77786f;--line:#e8e1d5}
+*{box-sizing:border-box}
+body{margin:0;background:var(--cream);color:var(--ink);font-family:Inter,ui-sans-serif,system-ui,-apple-system,Segoe UI,sans-serif}
+a{color:inherit;text-decoration:none}
+button,input,select,textarea{font:inherit}
+button{cursor:pointer}
+.topbar{background:var(--green);color:#fff;text-align:center;padding:9px 14px;font-size:12px;letter-spacing:.08em}
+header{background:var(--paper);border-bottom:1px solid var(--line);position:sticky;top:0;z-index:10}
+.nav{max-width:1200px;margin:auto;padding:17px 22px;display:flex;align-items:center;gap:22px}
+.logo{font-family:Georgia,serif;font-size:29px;font-weight:bold;letter-spacing:-1.5px;color:var(--green);white-space:nowrap}
+.logo span{color:#bd9149}
+.search{flex:1;position:relative}
+.search input{width:100%;border:1px solid var(--line);background:#faf8f3;border-radius:30px;padding:13px 18px 13px 43px;outline:none}
+.search:before{content:"⌕";position:absolute;left:17px;top:7px;font-size:24px;color:#777}
+.cart-btn{border:0;background:var(--green);color:white;border-radius:30px;padding:12px 17px;font-weight:700}
+.count{background:var(--gold);color:var(--green);border-radius:50%;padding:2px 7px;margin-left:5px}
+.hero{background:var(--green);color:#fff;overflow:hidden}
+.hero-inner{max-width:1200px;margin:auto;padding:65px 22px 70px;display:grid;grid-template-columns:1.2fr .8fr;gap:35px;align-items:center}
+.eyebrow{color:var(--gold);font-size:12px;letter-spacing:.19em;text-transform:uppercase;font-weight:800}
+h1{font-family:Georgia,serif;font-size:clamp(42px,6vw,70px);line-height:1.02;letter-spacing:-2px;margin:15px 0 18px;max-width:680px}
+h1 em{color:var(--gold);font-weight:400}
+.hero p{color:#d9e0d9;max-width:510px;line-height:1.7;font-size:16px}
+.hero-cta{display:inline-block;background:var(--gold);color:var(--green);padding:14px 23px;border-radius:4px;font-weight:800;margin-top:14px}
+.hero-art{min-height:260px;display:flex;align-items:center;justify-content:center;position:relative}
+.book-stack{width:270px;height:260px;position:relative;transform:rotate(-7deg)}
+.book-stack div{position:absolute;bottom:10px;width:170px;height:225px;border:5px solid #f1dfbd;box-shadow:15px 18px 35px #0005;border-radius:3px;display:flex;align-items:center;justify-content:center;text-align:center;padding:18px;font-family:Georgia,serif;font-size:23px;font-weight:bold}
+.book-stack div:nth-child(1){background:#b66e50;left:8px;transform:rotate(-12deg);color:#fff4df}
+.book-stack div:nth-child(2){background:#d7ad62;left:76px;bottom:0;transform:rotate(8deg);color:#25372d}
+.book-stack div:nth-child(3){background:#456657;left:135px;bottom:18px;transform:rotate(18deg);color:#fff}
+.benefits{max-width:1200px;margin:-1px auto 0;padding:18px 22px;display:grid;grid-template-columns:repeat(3,1fr);gap:10px;background:#fffdf8;border:1px solid var(--line);border-top:0}
+.benefit{text-align:center;font-size:13px;color:#52564e}
+.benefit b{display:block;color:var(--green);margin-bottom:3px}
+main{max-width:1200px;margin:auto;padding:52px 22px 80px}
+.section-head{display:flex;justify-content:space-between;align-items:end;gap:20px;margin-bottom:22px}
+.section-head h2{font-family:Georgia,serif;font-size:36px;color:var(--green);margin:0}
+.section-head p{color:var(--muted);margin:7px 0 0;font-size:14px}
+.filters{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:24px}
+.filter{border:1px solid var(--line);background:#fffdf8;border-radius:30px;padding:9px 15px;color:#555;font-size:13px}
+.filter.active{background:var(--green);border-color:var(--green);color:white}
+.grid{display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:22px 16px}
+.book{background:var(--paper);border:1px solid var(--line);border-radius:7px;padding:12px;display:flex;flex-direction:column;min-width:0;transition:.2s}
+.book:hover{transform:translateY(-4px);box-shadow:0 12px 25px #27382a12}
+.cover-wrap{height:205px;background:#eee8dd;display:flex;align-items:center;justify-content:center;overflow:hidden;border-radius:4px;margin-bottom:12px}
+.cover{height:100%;width:100%;object-fit:contain}
+.book-title{font-family:Georgia,serif;font-size:16px;line-height:1.25;min-height:40px;color:#26362d}
+.author{font-size:12px;color:var(--muted);margin-top:5px;min-height:30px}
+.book-bottom{margin-top:auto;padding-top:12px;display:flex;align-items:center;justify-content:space-between;gap:5px}
+.price{font-weight:850;color:var(--green);font-size:17px}
+.price small{font-size:10px;display:block;color:#89877e;font-weight:500}
+.add{border:0;background:var(--green);color:white;border-radius:4px;padding:9px 11px;font-size:12px;font-weight:750}
+.add:hover,.cart-btn:hover{background:var(--green2)}
+.no-results{grid-column:1/-1;text-align:center;padding:50px;color:var(--muted)}
+footer{background:var(--green);color:#e8eee8;padding:35px 22px;text-align:center}
+footer .logo{color:white}
+footer p{font-size:13px;color:#c4d0c5}
+.overlay{display:none;position:fixed;inset:0;background:#1119;z-index:30}
+.overlay.show{display:block}
+.drawer{position:absolute;right:0;top:0;height:100%;width:min(480px,100%);background:var(--paper);padding:24px;overflow:auto;box-shadow:-10px 0 40px #0002}
+.drawer-head{display:flex;justify-content:space-between;align-items:center;border-bottom:1px solid var(--line);padding-bottom:15px}
+.drawer h2{font-family:Georgia,serif;color:var(--green);margin:0}
+.close{border:0;background:none;font-size:28px;color:#555}
+.cart-items{padding:12px 0}
+.cart-line{display:grid;grid-template-columns:55px 1fr auto;gap:12px;padding:13px 0;border-bottom:1px solid var(--line);align-items:center}
+.cart-line img{width:55px;height:70px;object-fit:contain;background:#eee8dd}
+.cart-line strong{font-family:Georgia,serif;font-size:14px}
+.cart-line small{display:block;color:var(--muted);margin-top:5px}
+.qty{display:flex;align-items:center;gap:8px;margin-top:8px}
+.qty button{border:1px solid var(--line);background:white;border-radius:4px;width:24px;height:24px}
+.remove{border:0;background:none;color:#a44;font-size:12px;margin-left:6px}
+.total{display:flex;justify-content:space-between;font-size:18px;font-weight:850;padding:17px 0;border-top:1px solid var(--line)}
+.checkout{width:100%;background:var(--gold);color:var(--green);border:0;padding:15px;border-radius:4px;font-weight:850}
+.empty{text-align:center;padding:55px 10px;color:var(--muted)}
+.empty b{display:block;color:var(--green);font-family:Georgia,serif;font-size:22px;margin-bottom:8px}
+.form-group{margin:13px 0}
+.form-group label{display:block;font-size:12px;font-weight:750;margin-bottom:6px;color:#4c554c}
+.form-group input,.form-group select,.form-group textarea{width:100%;padding:12px;border:1px solid var(--line);border-radius:4px;background:#fff;outline-color:var(--gold)}
+.form-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.form-title{font-family:Georgia,serif;color:var(--green);font-size:23px;margin:20px 0 5px}
+.hint{font-size:12px;color:var(--muted);line-height:1.5}
+@media(max-width:950px){.grid{grid-template-columns:repeat(4,minmax(0,1fr))}.cover-wrap{height:190px}}
+@media(max-width:700px){
+.nav{padding:13px 14px;gap:10px;flex-wrap:wrap}
+.logo{font-size:25px}
+.search{order:3;flex-basis:100%}
+.cart-btn{margin-left:auto;padding:10px 12px}
+.hero-inner{grid-template-columns:1fr;padding:48px 20px 36px}
+.hero-art{min-height:210px}
+.book-stack{transform:scale(.8) rotate(-7deg)}
+.benefits{padding:15px 10px;grid-template-columns:1fr;gap:12px}
+.benefit{text-align:left;padding-left:15px}
+.section-head{display:block}
+.section-head h2{font-size:31px}
+.grid{grid-template-columns:repeat(2,minmax(0,1fr));gap:14px 11px}
+.cover-wrap{height:195px}
+.book{padding:9px}
+.book-title{font-size:15px}
+.add{padding:8px}
+.price{font-size:16px}
+main{padding:38px 14px 60px}
+}
+</style>
+</head>
+<body>
+
+<div class="topbar">LIVROS FÍSICOS • TODOS POR R$ 9,90 • FRETE GRÁTIS PARA TODO O BRASIL</div>
+
+<header>
+<div class="nav">
+<a class="logo" href="#">livra<span>.</span></a>
+<div class="search">
+<input id="search" type="search" placeholder="Busque por título ou autor..." aria-label="Buscar livros">
+</div>
+<button class="cart-btn" onclick="openCart()">Sacola <span class="count" id="count">0</span></button>
+</div>
+</header>
+
+<section class="hero">
+<div class="hero-inner">
+<div>
+<div class="eyebrow">Sua próxima história começa aqui</div>
+<h1>Um mundo de histórias por <em>R$ 9,90.</em></h1>
+<p>Aqui, cada página é um convite para viajar, aprender, se emocionar e descobrir novas ideias. Escolha seus próximos livros físicos favoritos: todos custam só R$ 9,90 e têm frete grátis. Sua próxima grande história pode chegar à sua porta sem custo de entrega!</p>
+<a class="hero-cta" href="#catalogo">ESCOLHER MEUS LIVROS ↓</a>
+</div>
+<div class="hero-art">
+<div class="book-stack">
+<div>HISTÓRIAS<br>QUE<br>INSPIRAM</div>
+<div>VIRE<br>A<br>PÁGINA</div>
+<div>LEIA<br>MAIS</div>
+</div>
+</div>
+</div>
+</section>
+
+<div class="benefits">
+<div class="benefit">📚 <b>100 livros físicos selecionados</b>Histórias para levar para casa</div>
+<div class="benefit">🏷️ <b>Todos por R$ 9,90</b>Livros físicos, preço único</div>
+<div class="benefit">🚚 <b>Frete grátis</b>Receba em casa sem pagar frete</div>
+</div>
+
+<main id="catalogo">
+<div class="section-head">
+<div>
+<div class="eyebrow" style="color:#a47b3e">Escolha sua próxima leitura</div>
+<h2>Seu próximo capítulo começa aqui</h2>
+<p>Todos os títulos são livros físicos. Escolha quantos quiser: cada exemplar custa R$ 9,90 e o frete é grátis.</p>
+</div>
+</div>
+<div class="filters" id="filters"></div>
+<div class="grid" id="books"></div>
+</main>
+
+<footer>
+<div class="logo">livra<span>.</span></div>
+<p>Livra Livraria · Livros físicos por R$ 9,90 com frete grátis. Boas histórias chegam até você!</p>
+<p>Pedidos e atendimento pelo WhatsApp: (11) 99590-1137</p>
+<p>© <span id="year"></span> Livra Livraria. Todos os direitos reservados.</p>
+</footer>
+
+<div class="overlay" id="overlay" onclick="backdropClose(event)">
+<aside class="drawer">
+<div class="drawer-head">
+<h2 id="drawerTitle">Sua sacola</h2>
+<button class="close" onclick="closeCart()" aria-label="Fechar">×</button>
+</div>
+<div id="cartView"></div>
+</aside>
+</div>
+
+<script>
+const books = [
+{"id":1,"title":"A Biblioteca da Meia-Noite","author":"Matt Haig","category":"Ficção"},
+{"id":2,"title":"É Assim que Acaba","author":"Colleen Hoover","category":"Ficção"},
+{"id":3,"title":"É Assim que Começa","author":"Colleen Hoover","category":"Ficção"},
+{"id":4,"title":"Verity","author":"Colleen Hoover","category":"Ficção"},
+{"id":5,"title":"Todas as Suas (Im)Perfeições","author":"Colleen Hoover","category":"Ficção"},
+{"id":6,"title":"O Lado Feio do Amor","author":"Colleen Hoover","category":"Ficção"},
+{"id":7,"title":"A hipótese do amor","author":"Ali Hazelwood","category":"Ficção"},
+{"id":8,"title":"Os Sete Maridos de Evelyn Hugo","author":"Taylor Jenkins Reid","category":"Ficção"},
+{"id":9,"title":"Daisy Jones & The Six","author":"Taylor Jenkins Reid","category":"Ficção"},
+{"id":10,"title":"A Vida Invisível de Addie LaRue","author":"V. E. Schwab","category":"Ficção"},
+{"id":11,"title":"Teto para Dois","author":"Beth O'Leary","category":"Ficção"},
+{"id":12,"title":"A Empregada","author":"Freida McFadden","category":"Ficção"},
+{"id":13,"title":"O Segredo da Empregada","author":"Freida McFadden","category":"Ficção"},
+{"id":14,"title":"A Garota do Lago","author":"Charlie Donlea","category":"Ficção"},
+{"id":15,"title":"A Paciente Silenciosa","author":"Alex Michaelides","category":"Ficção"},
+{"id":16,"title":"A Verdade Sobre o Caso Harry Quebert","author":"Joël Dicker","category":"Ficção"},
+{"id":17,"title":"Antes de Dormir","author":"S. J. Watson","category":"Ficção"},
+{"id":18,"title":"O Homem de Giz","author":"C. J. Tudor","category":"Ficção"},
+{"id":19,"title":"A Revolução dos Bichos","author":"George Orwell","category":"Ficção"},
+{"id":20,"title":"1984","author":"George Orwell","category":"Ficção"},
+{"id":21,"title":"A Metamorfose","author":"Franz Kafka","category":"Literatura"},
+{"id":22,"title":"O Pequeno Príncipe","author":"Antoine de Saint-Exupéry","category":"Literatura"},
+{"id":23,"title":"O Alquimista","author":"Paulo Coelho","category":"Literatura"},
+{"id":24,"title":"Veronika Decide Morrer","author":"Paulo Coelho","category":"Literatura"},
+{"id":25,"title":"Dom Casmurro","author":"Machado de Assis","category":"Literatura"},
+{"id":26,"title":"Memórias Póstumas de Brás Cubas","author":"Machado de Assis","category":"Literatura"},
+{"id":27,"title":"Quincas Borba","author":"Machado de Assis","category":"Literatura"},
+{"id":28,"title":"Capitães da Areia","author":"Jorge Amado","category":"Literatura"},
+{"id":29,"title":"Vidas Secas","author":"Graciliano Ramos","category":"Literatura"},
+{"id":30,"title":"Grande Sertão: Veredas","author":"João Guimarães Rosa","category":"Literatura"},
+{"id":31,"title":"Tudo é Rio","author":"Carla Madeira","category":"Literatura"},
+{"id":32,"title":"A Natureza da Mordida","author":"Carla Madeira","category":"Literatura"},
+{"id":33,"title":"Torto Arado","author":"Itamar Vieira Junior","category":"Literatura"},
+{"id":34,"title":"Olhos d'Água","author":"Conceição Evaristo","category":"Literatura"},
+{"id":35,"title":"O Avesso da Pele","author":"Jeferson Tenório","category":"Literatura"},
+{"id":36,"title":"O Diário de Anne Frank","author":"Anne Frank","category":"Literatura"},
+{"id":37,"title":"Eu Sou Malala","author":"Malala Yousafzai","category":"Literatura"},
+{"id":38,"title":"Sapiens","author":"Yuval Noah Harari","category":"Literatura"},
+{"id":39,"title":"Homo Deus","author":"Yuval Noah Harari","category":"Literatura"},
+{"id":40,"title":"21 Lições para o Século 21","author":"Yuval Noah Harari","category":"Literatura"},
+{"id":41,"title":"Hábitos Atômicos","author":"James Clear","category":"Desenvolvimento"},
+{"id":42,"title":"O Poder do Hábito","author":"Charles Duhigg","category":"Desenvolvimento"},
+{"id":43,"title":"Essencialismo","author":"Greg McKeown","category":"Desenvolvimento"},
+{"id":44,"title":"A Coragem de Ser Imperfeito","author":"Brené Brown","category":"Desenvolvimento"},
+{"id":45,"title":"Mindset","author":"Carol S. Dweck","category":"Desenvolvimento"},
+{"id":46,"title":"O Milagre da Manhã","author":"Hal Elrod","category":"Desenvolvimento"},
+{"id":47,"title":"Mais Esperto que o Diabo","author":"Napoleon Hill","category":"Desenvolvimento"},
+{"id":48,"title":"Quem Pensa Enriquece","author":"Napoleon Hill","category":"Desenvolvimento"},
+{"id":49,"title":"Pai Rico, Pai Pobre","author":"Robert T. Kiyosaki","category":"Desenvolvimento"},
+{"id":50,"title":"O Homem Mais Rico da Babilônia","author":"George S. Clason","category":"Desenvolvimento"},
+{"id":51,"title":"Do Mil ao Milhão","author":"Thiago Nigro","category":"Desenvolvimento"},
+{"id":52,"title":"A Psicologia Financeira","author":"Morgan Housel","category":"Desenvolvimento"},
+{"id":53,"title":"O Investidor Inteligente","author":"Benjamin Graham","category":"Desenvolvimento"},
+{"id":54,"title":"Comece Pelo Porquê","author":"Simon Sinek","category":"Desenvolvimento"},
+{"id":55,"title":"Roube Como um Artista","author":"Austin Kleon","category":"Desenvolvimento"},
+{"id":56,"title":"A Sutil Arte de Ligar o F*da-se","author":"Mark Manson","category":"Desenvolvimento"},
+{"id":57,"title":"O Poder do Agora","author":"Eckhart Tolle","category":"Desenvolvimento"},
+{"id":58,"title":"As Coisas que Você Só Vê Quando Desacelera","author":"Haemin Sunim","category":"Desenvolvimento"},
+{"id":59,"title":"Ansiedade: Como Enfrentar o Mal do Século","author":"Augusto Cury","category":"Desenvolvimento"},
+{"id":60,"title":"O Vendedor de Sonhos","author":"Augusto Cury","category":"Desenvolvimento"},
+{"id":61,"title":"Nunca Desista de Seus Sonhos","author":"Augusto Cury","category":"Fantasia"},
+{"id":62,"title":"Como Fazer Amigos e Influenciar Pessoas","author":"Dale Carnegie","category":"Fantasia"},
+{"id":63,"title":"A Arte da Guerra","author":"Sun Tzu","category":"Fantasia"},
+{"id":64,"title":"O Príncipe","author":"Nicolau Maquiavel","category":"Fantasia"},
+{"id":65,"title":"O Senhor dos Anéis: A Sociedade do Anel","author":"J. R. R. Tolkien","category":"Fantasia"},
+{"id":66,"title":"O Hobbit","author":"J. R. R. Tolkien","category":"Fantasia"},
+{"id":67,"title":"Harry Potter e a Pedra Filosofal","author":"J. K. Rowling","category":"Fantasia"},
+{"id":68,"title":"Harry Potter e a Câmara Secreta","author":"J. K. Rowling","category":"Fantasia"},
+{"id":69,"title":"Harry Potter e o Prisioneiro de Azkaban","author":"J. K. Rowling","category":"Fantasia"},
+{"id":70,"title":"Percy Jackson e o Ladrão de Raios","author":"Rick Riordan","category":"Fantasia"},
+{"id":71,"title":"O Mar de Monstros","author":"Rick Riordan","category":"Fantasia"},
+{"id":72,"title":"A Batalha do Labirinto","author":"Rick Riordan","category":"Fantasia"},
+{"id":73,"title":"Jogos Vorazes","author":"Suzanne Collins","category":"Fantasia"},
+{"id":74,"title":"Em Chamas","author":"Suzanne Collins","category":"Fantasia"},
+{"id":75,"title":"A Esperança","author":"Suzanne Collins","category":"Fantasia"},
+{"id":76,"title":"Crepúsculo","author":"Stephenie Meyer","category":"Fantasia"},
+{"id":77,"title":"Lua Nova","author":"Stephenie Meyer","category":"Fantasia"},
+{"id":78,"title":"A Hospedeira","author":"Stephenie Meyer","category":"Fantasia"},
+{"id":79,"title":"Corte de Espinhos e Rosas","author":"Sarah J. Maas","category":"Fantasia"},
+{"id":80,"title":"Trono de Vidro","author":"Sarah J. Maas","category":"Fantasia"},
+{"id":81,"title":"Cidade da Lua Crescente","author":"Sarah J. Maas","category":"Suspense"},
+{"id":82,"title":"Duna","author":"Frank Herbert","category":"Suspense"},
+{"id":83,"title":"Fundação","author":"Isaac Asimov","category":"Suspense"},
+{"id":84,"title":"Eu, Robô","author":"Isaac Asimov","category":"Suspense"},
+{"id":85,"title":"O Nome do Vento","author":"Patrick Rothfuss","category":"Suspense"},
+{"id":86,"title":"A Roda do Tempo: O Olho do Mundo","author":"Robert Jordan","category":"Suspense"},
+{"id":87,"title":"Coraline","author":"Neil Gaiman","category":"Suspense"},
+{"id":88,"title":"Deuses Americanos","author":"Neil Gaiman","category":"Suspense"},
+{"id":89,"title":"Lugar Nenhum","author":"Neil Gaiman","category":"Suspense"},
+{"id":90,"title":"O Oceano no Fim do Caminho","author":"Neil Gaiman","category":"Suspense"},
+{"id":91,"title":"It: A Coisa","author":"Stephen King","category":"Suspense"},
+{"id":92,"title":"O Iluminado","author":"Stephen King","category":"Suspense"},
+{"id":93,"title":"Novembro, 9","author":"Colleen Hoover","category":"Suspense"},
+{"id":94,"title":"Um de Nós Está Mentindo","author":"Karen M. McManus","category":"Suspense"},
+{"id":95,"title":"Pequenas Grandes Mentiras","author":"Liane Moriarty","category":"Suspense"},
+{"id":96,"title":"A Paciente","author":"Jasper DeWitt","category":"Suspense"},
+{"id":97,"title":"O Conto da Aia","author":"Margaret Atwood","category":"Suspense"},
+{"id":98,"title":"A Menina que Roubava Livros","author":"Markus Zusak","category":"Suspense"},
+{"id":99,"title":"Extraordinário","author":"R. J. Palacio","category":"Suspense"},
+{"id":100,"title":"O Sol é Para Todos","author":"Harper Lee","category":"Suspense"}
+];
+
+const PRICE = 9.90;
+const WHATSAPP = "5511995901137";
+let cart = {};
+let activeCategory = "Todos";
+
+const money = n => n.toLocaleString("pt-BR",{style:"currency",currency:"BRL"});
+const coverUrl = title => "https://covers.openlibrary.org/b/title/"+encodeURIComponent(title)+"-L.jpg";
+
+function renderFilters(){
+ const cats=["Todos",...new Set(books.map(b=>b.category))];
+ document.getElementById("filters").innerHTML=cats.map(c=>`<button class="filter ${c===activeCategory?'active':''}" onclick="setCategory(${JSON.stringify(c)})">${c}</button>`).join("");
+}
+
+function setCategory(c){
+ activeCategory=c;
+ renderFilters();
+ renderBooks();
+}
+
+function renderBooks(){
+ const q=document.getElementById("search").value.trim().toLocaleLowerCase("pt-BR");
+ const list=books.filter(b=>(activeCategory==="Todos"||b.category===activeCategory)&&(`${b.title} ${b.author}`).toLocaleLowerCase("pt-BR").includes(q));
+ document.getElementById("books").innerHTML=list.length?list.map(b=>`<article class="book"><div class="cover-wrap"><img class="cover" loading="lazy" src="${coverUrl(b.title)}" alt="Capa de ${esc(b.title)}" onerror="this.onerror=null;this.src=placeholder('${safeJs(b.title)}')"></div><div class="book-title">${esc(b.title)}</div><div class="author">${esc(b.author)}</div><div class="book-bottom"><div class="price">${money(PRICE)}<small>livro físico</small></div><button class="add" onclick="addToCart(${b.id})">+ Adicionar</button></div></article>`).join(""):`<div class="no-results">Nenhum livro encontrado. Tente outro título ou autor.</div>`;
+}
+
+function esc(s){
+ return String(s).replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]));
+}
+
+function safeJs(s){
+ return String(s).replace(/\\/g,"\\\\").replace(/'/g,"\\'").replace(/</g,"");
+}
+
+function placeholder(title){
+ const t=String(title).replace(/[&<>"]/g,"");
+ const svg=`<svg xmlns="http://www.w3.org/2000/svg" width="240" height="330"><rect width="100%" height="100%" fill="#28463a"/><rect x="12" y="12" width="216" height="306" fill="none" stroke="#d7ad62" stroke-width="3"/><text x="120" y="145" fill="#fff" font-family="Georgia" font-size="17" text-anchor="middle">${t.slice(0,28)}</text><text x="120" y="185" fill="#d7ad62" font-family="Georgia" font-size="15" text-anchor="middle">LIVRA LIVRARIA</text></svg>`;
+ return "data:image/svg+xml;charset=UTF-8,"+encodeURIComponent(svg);
+}
+
+function addToCart(id){
+ cart[id]=(cart[id]||0)+1;
+ updateCount();
+ openCart();
+}
+
+function updateCount(){
+ document.getElementById("count").textContent=Object.values(cart).reduce((a,b)=>a+b,0);
+}
+
+function cartTotal(){
+ return Object.values(cart).reduce((a,b)=>a+b,0)*PRICE;
+}
+
+function cartLines(){
+ return Object.entries(cart).filter(([id,q])=>q>0).map(([id,q])=>({book:books.find(b=>b.id===Number(id)),q}));
+}
+
+function openCart(){
+ document.getElementById("overlay").classList.add("show");
+ document.getElementById("drawerTitle").textContent="Sua sacola";
+ renderCart();
+}
+
+function closeCart(){
+ document.getElementById("overlay").classList.remove("show");
+}
+
+function backdropClose(e){
+ if(e.target.id==="overlay")closeCart();
+}
+
+function changeQty(id,delta){
+ cart[id]=(cart[id]||0)+delta;
+ if(cart[id]<=0)delete cart[id];
+ updateCount();
+ renderCart();
+}
+
+function renderCart(){
+ const lines=cartLines();
+ const el=document.getElementById("cartView");
+
+ if(!lines.length){
+  el.innerHTML='<div class="empty"><b>Sua sacola está vazia</b>Que tal escolher um livro físico para chamar de seu?<br><br><button class="checkout" onclick="closeCart()">Ver livros</button></div>';
+  return;
+ }
+
+ el.innerHTML=`<div class="cart-items">${lines.map(({book:b,q})=>`<div class="cart-line"><img src="${coverUrl(b.title)}" onerror="this.src=placeholder('${safeJs(b.title)}')" alt=""><div><strong>${esc(b.title)}</strong><small>${money(PRICE)} cada</small><div class="qty"><button onclick="changeQty(${b.id},-1)">−</button><b>${q}</b><button onclick="changeQty(${b.id},1)">+</button><button class="remove" onclick="changeQty(${b.id},-${q})">Remover</button></div></div><b>${money(q*PRICE)}</b></div>`).join("")}</div><div class="total"><span>Total dos livros</span><span>${money(cartTotal())}</span></div><p class="hint">🚚 Frete grátis — você paga apenas pelos livros!</p><button class="checkout" onclick="showCheckout()">FINALIZAR PEDIDO PELO WHATSAPP</button><p class="hint">Você vai revisar seus dados e abrir o WhatsApp com o pedido preenchido.</p>`;
+}
+
+function showCheckout(){
+ document.getElementById("drawerTitle").textContent="Finalizar pedido";
+
+ document.getElementById("cartView").innerHTML=`<form id="orderForm" onsubmit="sendOrder(event)">
+ <div class="form-title">Seus dados</div>
+
+ <div class="form-group">
+ <label for="name">Nome completo *</label>
+ <input id="name" required autocomplete="name" placeholder="Como podemos te chamar?">
+ </div>
+
+ <div class="form-grid">
+ <div class="form-group">
+ <label for="phone">Seu WhatsApp *</label>
+ <input id="phone" required type="tel" autocomplete="tel" placeholder="(11) 99999-9999">
+ </div>
+ <div class="form-group">
+ <label for="cep">CEP</label>
+ <input id="cep" autocomplete="postal-code" placeholder="00000-000">
+ </div>
+ </div>
+
+ <div class="form-group">
+ <label for="address">Endereço para entrega *</label>
+ <input id="address" required autocomplete="street-address" placeholder="Rua, número, bairro e cidade">
+ </div>
+
+ <div class="form-group">
+ <label for="complement">Complemento / referência</label>
+ <input id="complement" placeholder="Apartamento, bloco, referência...">
+ </div>
+
+ <div class="form-title">Pagamento</div>
+
+ <div class="form-group">
+ <label for="payment">Como deseja pagar? *</label>
+ <select id="payment" required>
+ <option value="">Selecione uma forma de pagamento</option>
+ <option>Pix</option>
+ <option>Cartão de crédito</option>
+ <option>Cartão de débito</option>
+ <option>Dinheiro</option>
+ </select>
+ </div>
+
+ <div class="form-group">
+ <label for="notes">Observações</label>
+ <textarea id="notes" rows="2" placeholder="Alguma informação adicional?"></textarea>
+ </div>
+
+ <div class="total">
+ <span>Total dos livros</span>
+ <span>${money(cartTotal())}</span>
+ </div>
+
+ <p class="hint">Frete grátis! A disponibilidade dos títulos e o prazo de entrega serão confirmados pelo atendimento. Nenhum pagamento é realizado nesta página.</p>
+
+ <button class="checkout" type="submit">ENVIAR PEDIDO NO WHATSAPP</button>
+
+ <button type="button" class="filter" style="width:100%;margin-top:9px" onclick="renderCart();document.getElementById('drawerTitle').textContent='Sua sacola'">Voltar à sacola</button>
+ </form>`;
+}
+
+function sendOrder(e){
+ e.preventDefault();
+ if(!cartLines().length)return;
+
+ const v=id=>document.getElementById(id).value.trim();
+ const lines=cartLines();
+
+ let msg=`Olá! Quero fazer um pedido de livros físicos na Livra Livraria 📚%0A%0A*DADOS DO CLIENTE*%0A`;
+
+ msg+=`Nome: ${encodeURIComponent(v("name"))}%0AWhatsApp: ${encodeURIComponent(v("phone"))}%0AEndereço: ${encodeURIComponent(v("address"))}%0ACEP: ${encodeURIComponent(v("cep")||"Não informado")}%0AComplemento: ${encodeURIComponent(v("complement")||"Não informado")}%0A%0A*MEU PEDIDO*%0A`;
+
+ lines.forEach(({book,q})=>{
+  msg+=`• ${encodeURIComponent(book.title)} — ${q} x R$ 9,90 = ${encodeURIComponent(money(q*PRICE))}%0A`;
+ });
+
+ msg+=`%0A*TOTAL DOS LIVROS: ${encodeURIComponent(money(cartTotal()))}*%0A*FRETE: GRÁTIS*%0AForma de pagamento: ${encodeURIComponent(v("payment"))}%0AObservações: ${encodeURIComponent(v("notes")||"Nenhuma")}%0A%0APor favor, confirme a disponibilidade dos livros e o prazo de entrega. O frete é grátis!`;
+
+ window.open(`https://wa.me/${WHATSAPP}?text=${msg}`,"_blank","noopener");
+}
+
+document.getElementById("search").addEventListener("input",renderBooks);
+document.getElementById("year").textContent=new Date().getFullYear();
+
+renderFilters();
+renderBooks();
+updateCount();
+</script>
+</body>
+</html>
